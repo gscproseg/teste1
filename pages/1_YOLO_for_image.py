@@ -19,8 +19,8 @@ with st.spinner('Please wait while your model is loading'):
     st.write('Por favor, carregue a imagem para obter a identificação')
 
     with st.spinner('Por favor, aguarde enquanto analisamos a sua imagem'):
-        yolo = YOLO_Pred(onnx_model='./best.onnx',
-                         data_yaml='./data.yaml')
+        yolo = YOLO_Pred(onnx_model='./models/best.onnx',
+                         data_yaml='./models//data.yaml')
         #st.balloons()
 
     def upload_image():
