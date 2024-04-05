@@ -5,6 +5,7 @@ import numpy as np
 import os
 import yaml
 from yaml.loader import SafeLoader
+import streamlit_webrtc
 
 
 class YOLO_Pred():
