@@ -42,6 +42,12 @@ webrtc_ctx = webrtc_streamer(
     media_stream_constraints={"video": True, "audio": False},
 )
 
+# Verificar o estado do WebRTC antes de exibir a mensagem
+if webrtc_ctx.state == "connected":
+    st.write("Streaming de vídeo com detecção de objetos está ativo.")
+else:
+    st.write("Aguardando a transmissão de vídeo começar...")
+
 # Exibir a interface do Streamlit
 if webrtc_ctx.state == "connected":
     st.write("Streaming de vídeo com detecção de objetos está ativo.")
