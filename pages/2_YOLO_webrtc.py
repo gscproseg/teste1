@@ -1,4 +1,4 @@
-import streamlit as st 
+import streamlit as st
 import asyncio
 from streamlit_webrtc import (
     VideoProcessorBase,
@@ -12,6 +12,10 @@ from yolo_predictions import YOLO_Pred
 # Carregar o modelo YOLO
 yolocam = YOLO_Pred(onnx_model='./models/best.onnx', data_yaml='./models/data.yaml')
 
+# Iniciar loop de eventos asyncio
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+
 # Definir configuração RTC (WebRTC)
 rtc_configuration = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
@@ -23,7 +27,6 @@ class YOLOVideoProcessor(VideoProcessorBase):
             img_cam = frame.to_ndarray(format="bgr24")
 
             # Processamento assíncrono
-            loop = asyncio.get_running_loop()
             pred_img_video = await loop.run_in_executor(None, yolocam.predictions, img_cam)
 
             # Adicionar mensagem de log para verificar as previsões
@@ -43,16 +46,12 @@ webrtc_ctx = webrtc_streamer(
     media_stream_constraints={"video": True, "audio": False},
 )
 
-# Verificar o estado do WebRTC e adicionar logs
-st.write(f"Estado do WebRTC: {webrtc_ctx.state}")
+# Loop principal para atualizar a interface
+while True:
+    if webrtc_ctx.state.playing:
+        st.write("Streaming de vídeo com detecção de objetos está ativo.")
+    else:
+        st.write("Aguardando a transmissão de vídeo começar...")
 
-if webrtc_ctx.state.playing:
-    st.write("Streaming de vídeo com detecção de objetos está ativo.")
-else:
-    st.write("Aguardando a transmissão de vídeo começar...")
-
-# Exibir a interface do Streamlit
-if webrtc_ctx.state.playing:
-    st.write("Streaming de vídeo com detecção de objetos está ativo.")
-else:
-    st.write("Aguardando a transmissão de vídeo começar...")
+    # Atualizar a interface de forma assíncrona
+    await asyncio.sleep(0)
