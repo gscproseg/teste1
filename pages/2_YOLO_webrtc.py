@@ -48,12 +48,14 @@ async def main():
     # Loop principal para atualizar a interface
     while True:
         if webrtc_ctx.state.playing:
-            st.write("Streaming de vídeo com detecção de objetos está ativo.")
-        else:
-            st.write("Aguardando a transmissão de vídeo começar...")
+            break  # Sair do loop quando a transmissão estiver ativa
 
-        # Atualizar a interface de forma assíncrona
-        await asyncio.sleep(0)
+        st.write("Aguardando a transmissão de vídeo começar...")
+
+        # Atualizar a interface com um pequeno atraso
+        await asyncio.sleep(0.5)  # Atraso de 0.5 segundos
+
+    st.write("Streaming de vídeo com detecção de objetos está ativo.")
 
 # Executar a função principal assíncrona
 if __name__ == "__main__":
