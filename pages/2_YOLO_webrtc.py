@@ -1,4 +1,5 @@
 import streamlit as st 
+import asyncio
 from streamlit_webrtc import (
     VideoProcessorBase,
     RTCConfiguration,
@@ -8,8 +9,7 @@ import av
 from yolo_predictions import YOLO_Pred
 
 # Carregar o modelo YOLO
-yolocam = YOLO_Pred(onnx_model='./models/best.onnx',
-                    data_yaml='./models/data.yaml')
+yolocam = YOLO_Pred(onnx_model='./models/best.onnx', data_yaml='./models/data.yaml')
 
 # Definir configuração RTC (WebRTC)
 rtc_configuration = RTCConfiguration(
@@ -20,7 +20,10 @@ class YOLOVideoProcessor(VideoProcessorBase):
     async def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         try:
             img_cam = frame.to_ndarray(format="bgr24")
-            pred_img_video = yolocam.predictions(img_cam)
+
+            # Processamento assíncrono
+            loop = asyncio.get_running_loop()
+            pred_img_video = await loop.run_in_executor(None, yolocam.predictions, img_cam)
 
             # Adicionar mensagem de log para verificar as previsões
             st.write(f"Previsões: {pred_img_video}")
