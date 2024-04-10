@@ -17,7 +17,7 @@ rtc_configuration = RTCConfiguration(
 )
 
 class YOLOVideoProcessor(VideoProcessorBase):
-    async def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
+    async def (self, frame: av.VideoFrame) -> av.VideoFrame:
         try:
             img_cam = frame.to_ndarray(format="bgr24")
 
