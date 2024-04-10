@@ -8,7 +8,7 @@
     from yolo_predictions import YOLO_Pred
     
     # Carregar o modelo YOLO
-    yolocam = YOLO_Pred(onnx_model='/models/best.onnx', data_yaml='/models/data.yaml')
+    yolocam = YOLO_Pred(onnx_model='teste1/models/best.onnx', data_yaml='teste1/models/data.yaml')
     
     # Definir configuração RTC (WebRTC)
     rtc_configuration = RTCConfiguration(
