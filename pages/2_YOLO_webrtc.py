@@ -34,7 +34,7 @@ class YOLOVideoProcessor(VideoProcessorBase):
             return frame
 
 # Configurar e iniciar a transmissão WebRTC
-webrtc_ctx = async_processing(
+webrtc_ctx = webrtc_streamer(
     key="example",
     video_processor_factory=YOLOVideoProcessor,
     rtc_configuration=rtc_configuration,
