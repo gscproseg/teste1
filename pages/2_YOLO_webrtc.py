@@ -42,8 +42,8 @@ webrtc_ctx = webrtc_streamer(
     media_stream_constraints={"video": True, "audio": False},
 )
 
-# Verificar o estado do WebRTC e adicionar logs
-st.write(f"Estado do WebRTC: {webrtc_ctx.state}")
+    # Verificar o estado do WebRTC e adicionar logs
+    st.write(f"Estado do WebRTC: {webrtc_ctx.state}")
 
 if webrtc_ctx.state == "connected":
     st.write("Streaming de vídeo com detecção de objetos está ativo.")
