@@ -3,6 +3,7 @@ import asyncio
 from streamlit_webrtc import (
     VideoProcessorBase,
     RTCConfiguration,
+    WebRtcStreamerState,
     webrtc_streamer
 )
 import av
@@ -45,13 +46,13 @@ webrtc_ctx = webrtc_streamer(
 # Verificar o estado do WebRTC e adicionar logs
 st.write(f"Estado do WebRTC: {webrtc_ctx.state}")
 
-if webrtc_ctx.state == "connected":
+if webrtc_ctx.state.playing:
     st.write("Streaming de vídeo com detecção de objetos está ativo.")
 else:
     st.write("Aguardando a transmissão de vídeo começar...")
 
 # Exibir a interface do Streamlit
-if webrtc_ctx.state == "connected":
+if webrtc_ctx.state.playing:
     st.write("Streaming de vídeo com detecção de objetos está ativo.")
 else:
     st.write("Aguardando a transmissão de vídeo começar...")
